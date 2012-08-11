@@ -1,3 +1,3 @@
-module Somelimited
+module Runlimited
   VERSION = "0.0.1"
 end

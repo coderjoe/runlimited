@@ -1,12 +1,21 @@
-# Somelimited
+# Runlimited
 
-TODO: Write a gem description
+Runlimited is a simple implementation of a rate limiter allowing
+one to make sure their code isn't running any faster than you is
+absolutely necessary.
+
+This implementation is very simplistic. For a more robust rate limiting
+solution I recommend checking out one of the following solutions:
+
+http://rubygems.org/gems/ratelimit
+http://rubygems.org/gems/rack-ratelimiter
+
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'somelimited'
+    gem 'runlimited'
 
 And then execute:
 
@@ -14,11 +23,15 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install somelimited
+    $ gem install runlimited
 
 ## Usage
 
-TODO: Write usage instructions here
+    limiter = Runlimited::Redis.new( :interval => 10 ) # Allow a minimum of 5 seconds between code
+
+    limiter.limit do
+      Big::Api.call
+    end
 
 ## Contributing
 
