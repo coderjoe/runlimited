@@ -10,20 +10,27 @@ module Somelimited
 	class Base
 		# The wait interval reader
 		attr_reader :interval
+		attr_reader :last_request
 
 		# Set the wait interval in seconds
 		def initialize(interval = 5)
 			@interval = interval
+			@last_request = Time.at(0)
 		end
 
-		# Return true if the limit has been passed, false otherwise
+		# Return true if we should be limited, false otherwise
 		def limited?
 			(Time.new - last_request) < interval
 		end
 
-		# Base last_request method. This should be overridden by implementing classes
-		def last_request
-			@last_request ||= Time.new
+		# Run a block of code if and only if the limit is not currently hit
+		def limit
+			result = [ !limited? ]
+			if block_given? && !limited?
+				update
+				result << yield
+			end
+			result
 		end
 
 		# Base update method. This hsould be overridden by implementing classes

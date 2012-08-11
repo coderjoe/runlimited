@@ -38,7 +38,6 @@ describe Somelimited do
     end
 
     it "returns false from #limited? if the limit is passed" do
-      Time.expects(:new).returns(Time.at(0))
       r = Somelimited::Base.new(5)
 
       Time.expects(:new).returns(Time.at(0)+100)
@@ -46,9 +45,49 @@ describe Somelimited do
     end
 
     it "returns true from #limited? if the limit has not passed" do
-      Time.any_instance.stubs(:new).returns(Time.at(0))
       r = Somelimited::Base.new(5)
+
+      Time.expects(:new).returns(Time.at(0))
       r.limited?.must_equal true
     end
+
+		it "responds to #limit requiring a block returning an array" do
+			limiter = Somelimited::Base.new(5)
+
+			result = limiter.limit do
+				'successful attempt'
+			end
+
+			result.must_be_instance_of Array
+		end
+
+		describe "#limit" do
+			it "should return an array of [true, <block return value>] if limit has passed" do
+				limiter = Somelimited::Base.new(5)
+
+				result = limiter.limit do
+					'successful attempt'
+				end
+
+				result.length.must_equal 2
+				result[0].must_equal true
+				result[1].must_equal 'successful attempt'
+			end
+
+			it "should return an array of [false] if the limit has not passed" do
+				limiter = Somelimited::Base.new(5)
+
+				limiter.limit do
+					'success attempt'
+				end
+
+				result = limiter.limit do
+					'fail attempt'
+				end
+
+				result.length.must_equal 1
+				result[0].must_equal false
+			end
+		end
   end
 end
