@@ -1,5 +1,7 @@
 require "somelimited/version"
 
 module Somelimited
-  # Your code goes here...
 end
+
+require 'somelimited/base'
+require 'somelimited/redis'
