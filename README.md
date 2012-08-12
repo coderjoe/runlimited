@@ -10,6 +10,9 @@ solution I recommend checking out one of the following solutions:
 http://rubygems.org/gems/ratelimit
 http://rubygems.org/gems/rack-ratelimiter
 
+This code should be considered very alpha. I'm using it in production but
+I'm still fleshing out this gem's final intentions. In the end it's final
+design will fit my app's needs first.
 
 ## Installation
 
@@ -29,9 +32,20 @@ Or install it yourself as:
 
     limiter = Runlimited::Redis.new( :interval => 10 ) # Allow a minimum of 5 seconds between code
 
-    limiter.limit do
+    # Find out if we're currently limited
+    limiter.limited? # => false
+
+    # Run some code returning the success and return value of the block (if applicable)
+    limiter.run do
       Big::Api.call
     end
+    # => [ true, "api result" ]
+
+    # If the run fails, the "success" will be false
+    limiter.run do
+      Big::Api.call
+    end
+    # => [ false ]
 
 ## Contributing
 

@@ -4,8 +4,8 @@ require File.expand_path('../lib/runlimited/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Joe Bauser"]
   gem.email         = ["coderjoe@coderjoe.net"]
-  gem.description   = %q{A gem to rate limit chunks of Ruby code}
-  gem.summary       = %q{TODO: Write a longer summary}
+  gem.description   = %q{Rate limit Ruby code execution}
+  gem.summary       = %q{Make sure that your code runs only as fast as you allow it to}
   gem.homepage      = "https://github.com/coderjoe/runlimited"
 
   gem.files         = `git ls-files`.split($\)
