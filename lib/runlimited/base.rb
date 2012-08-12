@@ -26,7 +26,7 @@ module Runlimited
 		end
 
 		# Run a block of code if and only if the limit is not currently hit
-		def limit
+		def run
 			result = [ !limited? ]
 			if block_given? && !limited?
 				update

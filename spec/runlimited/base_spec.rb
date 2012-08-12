@@ -71,11 +71,11 @@ describe Runlimited do
 			end
 		end
 
-		describe "#limit" do
+		describe "#run" do
 			it "takes a block returning an array" do
 				limiter = Runlimited::Base.new
 
-				result = limiter.limit do
+				result = limiter.run do
 					'successful attempt'
 				end
 
@@ -86,7 +86,7 @@ describe Runlimited do
 			it "should return an array of [true, <block return value>] if limit has passed" do
 				limiter = Runlimited::Base.new
 
-				result = limiter.limit do
+				result = limiter.run do
 					'successful attempt'
 				end
 
@@ -98,11 +98,11 @@ describe Runlimited do
 			it "should return an array of [false] if the limit has not passed" do
 				limiter = Runlimited::Base.new
 
-				limiter.limit do
+				limiter.run do
 					'success attempt'
 				end
 
-				result = limiter.limit do
+				result = limiter.run do
 					'fail attempt'
 				end
 
